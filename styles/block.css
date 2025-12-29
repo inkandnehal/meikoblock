@@ -1,0 +1,72 @@
+:root {
+    --bg-color: #202124;
+    --text-primary: #E8EAED;
+    --text-secondary: #9AA0A6;
+    --brand-red: #E53935;
+    --brand-green: #00C853;
+    --brand-green-hover: #009624;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 3.75rem; /* 60px */
+    color: var(--brand-red);
+    margin: 0 0 1.25rem 0;
+    letter-spacing: 4px;
+    font-weight: 800;
+}
+
+.message-box h2 {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+}
+
+.message-box p {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}
+
+.mascot {
+    font-size: 5rem;
+    margin: 2.5rem 0;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.btn-focus {
+    background-color: var(--brand-green);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.125rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.btn-focus:hover {
+    transform: scale(1.05);
+    background-color: var(--brand-green-hover);
+}
+
+.btn-focus:active {
+    transform: scale(0.95);
+}

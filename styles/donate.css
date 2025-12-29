@@ -1,0 +1,120 @@
+:root {
+    --bg-dark: #1a1b1e;
+    --card-bg: #2c2e33;
+    --text-main: #edeef0;
+    --text-muted: #9ca3af;
+    --accent-green: #10b981;
+    --accent-green-dark: #059669;
+    --accent-red: #ef4444;
+    --border-color: #374151;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+.header p {
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+}
+
+.crypto-icon img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+}
+
+.network-badge {
+    display: inline-block;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--accent-green);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.address-box {
+    background: #111;
+    padding: 1rem;
+    border-radius: 8px;
+    word-break: break-all;
+    font-family: 'Fira Code', monospace;
+    color: var(--accent-red);
+    border: 1px dashed var(--border-color);
+    margin-bottom: 1.25rem;
+    user-select: all;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.address-box:hover {
+    background: #161616;
+    border-color: var(--text-muted);
+}
+
+.btn-copy {
+    background-color: var(--accent-green);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-copy:hover {
+    background-color: var(--accent-green-dark);
+    transform: translateY(-1px);
+}
+
+.btn-copy:active {
+    transform: translateY(0);
+}
+
+.btn-copy.success {
+    background-color: var(--accent-blue, #3b82f6);
+}
+
+.warning-note {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    line-height: 1.5;
+    color: var(--text-muted);
+    background: rgba(239, 68, 68, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeikoWebBlocker</title>
+  <link rel="stylesheet" href="../styles/popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1 class="brand">MeikoBlock</h1>
+        <a href="#" id="donateLink" class="donate-link">Donate</a>
+      </div>
+      <button id="powerBtn" class="btn-power" aria-label="Toggle Blocking System" title="Pause/Resume Blocking">
+        <svg class="icon-power" viewBox="0 0 24 24">
+            <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.41L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
+        </svg>
+        <svg class="icon-play" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div id="pausedOverlay" class="hidden">SYSTEM PAUSED</div>
+
+    <section class="hero">
+      <h2>Don’t just say <span class="highlight-no">NO</span> to Web Distractions</h2>
+      <button id="boomBtn" class="btn-boom">Boom them up!</button>
+    </section>
+
+    <section class="mode-section">
+      <span class="mode-label">Normal</span>
+      <label class="switch">
+        <input type="checkbox" id="panicToggle">
+        <span class="slider round"></span>
+      </label>
+      <span class="mode-label highlight-panic">PANIC MODE</span>
+    </section>
+
+    <section class="input-group">
+      <div class="input-wrapper">
+        <input type="text" id="domainInput" placeholder="example.com">
+      </div>
+      <button id="addBlockRuleBtn" class="btn-add">Block Site</button>
+    </section>
+
+    <section class="list-section">
+      <h3 id="listTitle">Currently Blocked:</h3>
+      <ul id="siteList">
+        <li class="placeholder-item">Loading rules...</li>
+      </ul>
+    </section>
+  </div>
+  <script type="module" src="../scripts/popup.js"></script>
+</body>
+</html>

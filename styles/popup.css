@@ -1,0 +1,310 @@
+/* MeikoWebBlocker Popup Styles 
+  Uses CSS variables for theming and consistency.
+*/
+
+:root {
+  --bg-color: #1a1b1e;
+  --surface-color: #2c2e33;
+  
+  --text-primary: #edeef0;
+  --text-secondary: #9ca3af;
+  
+  --accent-green: #10b981;
+  --accent-green-hover: #059669;
+  --accent-red: #ef4444;
+  --accent-blue: #3b82f6;
+  
+  --border-radius-lg: 12px;
+  --border-radius-sm: 8px;
+}
+
+body {
+  width: 360px;
+  min-height: 520px;
+  margin: 0;
+  padding: 24px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  border: 2px solid transparent; /* Prevents layout shift when panic border appears */
+}
+
+/* --- Panic Mode State --- */
+body.panic-active {
+  border-color: var(--accent-red);
+}
+
+/* --- Header --- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.brand {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.donate-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.donate-link:hover {
+  color: var(--accent-green);
+  text-decoration: underline;
+}
+
+/* --- Power Button --- */
+.btn-power {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-green);
+  border: 1px solid var(--accent-green);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.btn-power svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.btn-power:hover {
+  background: var(--accent-green);
+  color: white;
+  transform: scale(1.1);
+}
+
+.icon-play { display: none; }
+
+/* Paused State */
+body.is-paused .btn-power {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--accent-red);
+  border-color: var(--accent-red);
+}
+
+body.is-paused .icon-power { display: none; }
+body.is-paused .icon-play { display: block; margin-left: 2px; }
+
+body.is-paused .btn-power:hover {
+  background: var(--accent-red);
+  color: white;
+}
+
+/* Paused Filter Effect */
+body.is-paused section {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
+#pausedOverlay {
+  text-align: center;
+  color: var(--accent-red);
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.hidden { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Hero --- */
+.hero { text-align: center; margin-bottom: 28px; }
+.hero h2 { font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600; }
+.highlight-no { color: var(--accent-red); font-weight: 800; }
+
+.btn-boom {
+  background: transparent;
+  color: var(--accent-red);
+  border: 1px solid var(--accent-red);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: default; /* It's decorative */
+}
+
+/* --- Switch --- */
+.mode-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding: 12px;
+  background-color: var(--surface-color);
+  border-radius: 16px;
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #4b5563;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider { background-color: var(--accent-red); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* --- Input Group --- */
+.input-group { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+
+input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid transparent;
+  background-color: var(--surface-color);
+  color: white;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent-green);
+  background-color: #25272b;
+}
+
+/* Change focus color in panic mode */
+body.panic-active input[type="text"]:focus {
+  border-color: var(--accent-blue);
+}
+
+.btn-add {
+  width: 100%;
+  background-color: var(--accent-green);
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-add:hover { background-color: var(--accent-green-hover); }
+body.panic-active .btn-add { background-color: var(--accent-blue); }
+
+/* --- List --- */
+#listTitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0 0 12px 0; 
+  font-weight: 600;
+}
+
+#siteList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.placeholder-item {
+  text-align: left; 
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 13px;
+  padding: 12px 4px; 
+  opacity: 0.6;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+}
+
+.btn-remove {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.btn-remove:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--accent-red);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb {
+  background-color: var(--surface-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background-color: #4b5563; }
+
+.input-error {
+  border-color: var(--accent-red) !important;
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
