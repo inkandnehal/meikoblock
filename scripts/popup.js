@@ -43,6 +43,7 @@ const elements = {
   panicToggle: document.getElementById("panicToggle"),
   powerBtn: document.getElementById("powerBtn"),
   settingsBtn: document.getElementById("settingsBtn"),
+  resetAllBtn: document.getElementById("resetAllBtn"),
   closeSettingsBtn: document.getElementById("closeSettingsBtn"),
   donateLink: document.getElementById("donateLink"),
   body: document.body,
@@ -101,6 +102,7 @@ function attachEventListeners() {
   elements.panicToggle.addEventListener("change", togglePanicMode);
   elements.addBtn.addEventListener("click", handleAddDomain);
   elements.settingsBtn.addEventListener("click", handleSettings);
+  elements.resetAllBtn.addEventListener("click", handleSettings);
   elements.closeSettingsBtn.addEventListener("click", handleSettings);
 
   elements.domainInput.addEventListener("keypress", (e) => {
@@ -214,6 +216,21 @@ async function handleSettings(e) {
         : document.getElementById("settingsOverlay").classList.add("hidden");
 
       break;
+    case "resetAllBtn":
+      const keys = CONFIG.STORAGE_KEYS;
+      await chrome.storage.local.set({
+        [keys.BLOCK_SUBDOMAINS]: CONFIG.DEFAULTS.blockSubdomains,
+        [keys.DISABLE_FOCUS_ANIMATIONS]: CONFIG.DEFAULTS.disableFocusAnimations,
+        [keys.BLOCKED_SITES]: [],
+        [keys.WHITELISTED_SITES]: [],
+      });
+
+      document.getElementById("blockSubdomainsByDefault").checked = false;
+      document.getElementById("focusAnimations").checked = false;
+
+      await reapplyRules();
+      renderUI(await chrome.storage.local.get(ALL_STORAGE_KEYS));
+      break;
     case "closeSettingsBtn":
       document.getElementById("settingsOverlay").classList.add("hidden");
 
@@ -227,6 +244,9 @@ async function handleSettings(e) {
           blockSubdomainsByDefault.checked,
         [CONFIG.STORAGE_KEYS.DISABLE_FOCUS_ANIMATIONS]: focusAnimations.checked,
       });
+
+      await reapplyRules();
+      renderUI(await chrome.storage.local.get(ALL_STORAGE_KEYS));
       break;
   }
 }
