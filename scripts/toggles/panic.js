@@ -3,7 +3,6 @@ import { forceReloadIfPanic } from "../reload.js";
 import { renderUI } from "../ui/render.js";
 import { ALL_STORAGE_KEYS } from "../worker/config.js";
 
-
 async function togglePanicMode() {
   const isPanicMode = this.checked;
   await chrome.storage.local.set({ panicMode: isPanicMode });
