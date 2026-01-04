@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MeikoWebBlocker</title>
-  <link rel="stylesheet" href="../styles/popup.css">
+  <link rel="stylesheet" href="../styles/popup.css" />
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -13,46 +15,93 @@
         <h1 class="brand">MeikoBlock</h1>
         <a href="#" id="donateLink" class="donate-link">Donate</a>
       </div>
-      <button id="powerBtn" class="btn-power" aria-label="Toggle Blocking System" title="Pause/Resume Blocking">
-        <svg class="icon-power" viewBox="0 0 24 24">
-            <path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.41L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/>
-        </svg>
-        <svg class="icon-play" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-        </svg>
       </button>
+      <div class="header-actions">
+        <button id="powerBtn" class="btn-power" aria-label="Toggle Blocking System" title="Pause/Resume Blocking">
+          <?xml version="1.0" encoding="utf-8"?>
+          <svg class="icon-power" viewBox="0 0 24 24">
+            <path
+              d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.41L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" />
+          </svg>
+          <svg class="icon-play" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+
+        <button id="settingsBtn" class="btn-settings" aria-label="Settings" title="Settings">
+          <?xml version="1.0" encoding="utf-8"?>
+          <svg class="icon-settings" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 1h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.58.23-1.13.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.72 7.98a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.84 13.66a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.4 1.05.71 1.63.94l.36 2.54c.04.24.25.42.49.42h3.8c.24 0 .45-.18.49-.42l.36-2.54c.58-.23 1.13-.54 1.63-.94l2.39.96c.22.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z" />
+          </svg>
+        </button>
     </header>
+    <div id="settingsOverlay" class="settings-overlay hidden">
+      <div class="settings-panel">
+        <div class="settings-header">
+          <h3>Settings</h3>
+          <button id="closeSettingsBtn" class="settings-close">✕</button>
+        </div>
 
-    <div id="pausedOverlay" class="hidden">SYSTEM PAUSED</div>
+        <div class="settings-content">
+          <label class="settings-row">
+            <span>Block subdomains by default</span>
+            <input id="blockSubdomainsByDefault" type="checkbox" />
+          </label>
 
-    <section class="hero">
-      <h2>Don’t just say <span class="highlight-no">NO</span> to Web Distractions</h2>
-      <button id="boomBtn" class="btn-boom">Boom them up!</button>
-    </section>
+          <label class="settings-row">
+            <span>Enable focus animations</span>
+            <input id="focusAnimations" type="checkbox" checked />
+          </label>
 
-    <section class="mode-section">
-      <span class="mode-label">Normal</span>
-      <label class="switch">
-        <input type="checkbox" id="panicToggle">
-        <span class="slider round"></span>
-      </label>
-      <span class="mode-label highlight-panic">PANIC MODE</span>
-    </section>
+          <label class="settings-row">
+            <span>Show pause warning</span>
+            <input type="checkbox" checked />
+          </label>
 
-    <section class="input-group">
-      <div class="input-wrapper">
-        <input type="text" id="domainInput" placeholder="example.com">
+          <button class="settings-danger">
+            Reset All Rules
+          </button>
+        </div>
       </div>
-      <button id="addBlockRuleBtn" class="btn-add">Block Site</button>
-    </section>
+    </div>
 
-    <section class="list-section">
-      <h3 id="listTitle">Currently Blocked:</h3>
-      <ul id="siteList">
-        <li class="placeholder-item">Loading rules...</li>
-      </ul>
-    </section>
+  </div>
+
+  <div id="pausedOverlay" class="hidden">SYSTEM PAUSED</div>
+
+  <section class="hero">
+    <h2>
+      Don’t just say <span class="highlight-no">NO</span> to Web
+      Distractions
+    </h2>
+    <button id="boomBtn" class="btn-boom">Boom them up!</button>
+  </section>
+
+  <section class="mode-section">
+    <span class="mode-label">Normal</span>
+    <label class="switch">
+      <input type="checkbox" id="panicToggle" />
+      <span class="slider round"></span>
+    </label>
+    <span class="mode-label highlight-panic">PANIC MODE</span>
+  </section>
+
+  <section class="input-group">
+    <div class="input-wrapper">
+      <input type="text" id="domainInput" placeholder="example.com" />
+    </div>
+    <button id="addBlockRuleBtn" class="btn-add">Block Site</button>
+  </section>
+
+  <section class="list-section">
+    <h3 id="listTitle">Currently Blocked:</h3>
+    <ul id="siteList">
+      <li class="placeholder-item">Loading rules...</li>
+    </ul>
+  </section>
   </div>
   <script type="module" src="../scripts/popup.js"></script>
 </body>
+
 </html>
