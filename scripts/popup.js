@@ -18,11 +18,13 @@ const CONFIG = {
     PANIC_MODE: "panicMode",
     IS_PAUSED: "isPaused",
     BLOCK_SUBDOMAINS: "blockSubdomains",
+    DISABLE_FOCUS_ANIMATIONS: "focusAnimations",
   },
 
   // Default Settings
   DEFAULTS: {
     blockSubdomains: false,
+    disableFocusAnimations: false,
   },
 
   MAX_ID_RANGE: 800000,
@@ -53,12 +55,24 @@ async function init() {
   const state = await chrome.storage.local.get(
     Object.values(CONFIG.STORAGE_KEYS)
   );
-  const checkbox = document.getElementById("blockSubdomainsByDefault");
 
-  if (checkbox) {
-    checkbox.checked = state[CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS] ?? CONFIG.DEFAULTS.blockSubdomains;
+  // Settings
+  const blockSubdomainsByDefault = document.getElementById(
+    "blockSubdomainsByDefault"
+  );
+  const focusAnimations = document.getElementById("focusAnimations");
+
+  if (blockSubdomainsByDefault)
+    blockSubdomainsByDefault.checked =
+      state[CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS] ??
+      CONFIG.DEFAULTS.blockSubdomains;
+  if (focusAnimations)
+    focusAnimations.checked =
+      state[CONFIG.STORAGE_KEYS.DISABLE_FOCUS_ANIMATIONS] ??
+      CONFIG.DEFAULTS.disableFocusAnimations;
+  if (focusAnimations.checked) {
+    document.body.classList.toggle("focus-disabled", focusAnimations.checked);
   }
-
   renderUI(state);
 
   const [activeTab] = await chrome.tabs.query({
@@ -198,15 +212,20 @@ async function handleSettings(e) {
       document.getElementById("settingsOverlay").classList.contains("hidden")
         ? document.getElementById("settingsOverlay").classList.remove("hidden")
         : document.getElementById("settingsOverlay").classList.add("hidden");
+
       break;
     case "closeSettingsBtn":
       document.getElementById("settingsOverlay").classList.add("hidden");
 
-      const checkbox = document.getElementById("blockSubdomainsByDefault");
-      if (!checkbox) break;
-
+      const blockSubdomainsByDefault = document.getElementById(
+        "blockSubdomainsByDefault"
+      );
+      const focusAnimations = document.getElementById("focusAnimations");
+      document.body.classList.toggle("focus-disabled", focusAnimations.checked);
       await chrome.storage.local.set({
-        [CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS]: checkbox.checked,
+        [CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS]:
+          blockSubdomainsByDefault.checked,
+        [CONFIG.STORAGE_KEYS.DISABLE_FOCUS_ANIMATIONS]: focusAnimations.checked,
       });
       break;
   }
@@ -283,19 +302,20 @@ async function matchDomain(currentUrl, ruleDomain) {
   return currentUrl.endsWith("." + ruleDomain);
 }
 
-
 // --- Rule Engine ---
 
 async function reapplyRules() {
-const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
+  const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
   const removeIds = currentRules.map((r) => r.id);
   await chrome.declarativeNetRequest.updateDynamicRules({
     removeRuleIds: removeIds,
   });
 
   const state = await chrome.storage.local.get(ALL_STORAGE_KEYS);
-  
-  const blockSubdomains = state[CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS] ?? CONFIG.DEFAULTS.blockSubdomains;
+
+  const blockSubdomains =
+    state[CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS] ??
+    CONFIG.DEFAULTS.blockSubdomains;
   const panicMode = state.panicMode;
   const whitelistedSites = state.whitelistedSites;
   const blockedSites = state.blockedSites;
@@ -334,7 +354,7 @@ const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
     });
   } else {
     // Normal
-(blockedSites || []).forEach((site) => {
+    (blockedSites || []).forEach((site) => {
       const pattern = generateRegexForDomain(site.domain, blockSubdomains);
 
       // Rule 1: Fancy Redirect (Priority 5000)
@@ -350,7 +370,7 @@ const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
         condition: { regexFilter: pattern, resourceTypes: ["main_frame"] },
       });
 
-      // Rule 2: Simple Fallback (Priority 4000) 
+      // Rule 2: Simple Fallback (Priority 4000)
       newRules.push({
         id: site.id + 1,
         priority: CONFIG.PRIORITY_SIMPLE_REDIRECT,
@@ -359,7 +379,9 @@ const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
           redirect: { extensionPath: "/pages/block.html" },
         },
         condition: {
-          ...(blockSubdomains ? { urlFilter: `||${site.domain.replace(/^\*\./, "")}` } : { regexFilter: pattern }),
+          ...(blockSubdomains
+            ? { urlFilter: `||${site.domain.replace(/^\*\./, "")}` }
+            : { regexFilter: pattern }),
           resourceTypes: ["main_frame"],
         },
       });
@@ -382,18 +404,12 @@ const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
       addRules: newRules,
     });
   }
-
-  console.log(generateRegexForDomain("example.com", blockSubdomains))
-  console.log(
-  await chrome.declarativeNetRequest.getDynamicRules()
-);
-
 }
 
 // --- Helpers ---
 
 function generateRegexForDomain(rawDomain, blockSubdomains = false) {
-  let domain = rawDomain.replace(/^https?:\/\//, '');
+  let domain = rawDomain.replace(/^https?:\/\//, "");
   let isWildcard = false;
 
   if (domain.startsWith("*.")) {
@@ -407,10 +423,8 @@ function generateRegexForDomain(rawDomain, blockSubdomains = false) {
     return `^(https?://(?:[^/]+\\.)*${safeDomain}(?:/.*)?)$`;
   }
 
-
   return `^(https?://(?:www\\.)?${safeDomain}(?:/.*)?)$`;
 }
-
 
 function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
