@@ -15,10 +15,26 @@ async function reapplyRules() {
     CONFIG.DEFAULTS.blockSubdomains;
   const panicMode = state.panicMode;
   const whitelistedSites = state.whitelistedSites;
-  const blockedSites = state.blockedSites;
+  const blockedSites = state.blockedSites ?? [];
+  const distractionSites = state.distractionSites ?? [];
+  const blockDistractionSites = true;
 
   const extensionId = chrome.runtime.id;
   const newRules = [];
+
+  let effectiveBlockedSites = [...blockedSites];
+
+  if (blockDistractionSites) {
+    const distractionRules = distractionSites.map((domain, index) => ({
+      id: CONFIG.MAX_ID_RANGE + index * 3,
+      domain,
+    }));
+
+    console.log(distractionSites)
+
+    effectiveBlockedSites = effectiveBlockedSites.concat(distractionRules);
+    console.log(effectiveBlockedSites)
+  }
 
   if (panicMode) {
     // Panic
@@ -51,7 +67,7 @@ async function reapplyRules() {
     });
   } else {
     // Normal
-    (blockedSites || []).forEach((site) => {
+    effectiveBlockedSites.forEach((site) => {
       const pattern = generateRegexForDomain(site.domain, blockSubdomains);
 
       // Rule 1: Fancy Redirect (Priority 5000)

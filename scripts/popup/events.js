@@ -1,4 +1,4 @@
-import { elements } from "../worker/config.js";
+import { elements } from "./elements.js";
 import { togglePower } from "../toggles/power.js";
 import { togglePanicMode } from "../toggles/panic.js";
 import { handleAddDomain } from "../features/domain.js";

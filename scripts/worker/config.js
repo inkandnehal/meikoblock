@@ -3,7 +3,7 @@
  * Fixes: "Race Condition" on remove. Removes blocking rule BEFORE signaling redirect.
  */
 
-const CONFIG = {
+export const CONFIG = {
   PRIORITY_SAFE: 9999,
   PRIORITY_FANCY_REDIRECT: 5000,
   PRIORITY_SIMPLE_REDIRECT: 4000,
@@ -19,6 +19,12 @@ const CONFIG = {
     IS_PAUSED: "isPaused",
     BLOCK_SUBDOMAINS: "blockSubdomains",
     DISABLE_FOCUS_ANIMATIONS: "focusAnimations",
+    BLOCK_DISTRACTION_SITES: "blockDistractionSites"
+  },
+
+  // Hidden Settings (Settings that the user doesn't need to know but is used for special features)
+  HIDDEN_SETTINGS: {
+    DISTRACTION_SITES: "distractionSites",
   },
 
   // Default Settings
@@ -29,6 +35,70 @@ const CONFIG = {
     isPaused: false,
     blockSubdomains: false,
     disableFocusAnimations: false,
+    blockDistractionSites: false,
+    distractionSites: [
+      "facebook.com",
+      "instagram.com",
+      "twitter.com",
+      "x.com",
+      "threads.net",
+      "tiktok.com",
+      "snapchat.com",
+      "reddit.com",
+      "pinterest.com",
+      "tumblr.com",
+      "linkedin.com",
+
+      "youtube.com",
+      "twitch.tv",
+      "kick.com",
+      "netflix.com",
+      "hulu.com",
+      "disneyplus.com",
+      "primevideo.com",
+      "hbomax.com",
+      "paramountplus.com",
+      "peacocktv.com",
+      "crunchyroll.com",
+      "funimation.com",
+
+      "roblox.com",
+      "minecraft.net",
+      "epicgames.com",
+      "steampowered.com",
+      "steamcommunity.com",
+      "playstation.com",
+      "xbox.com",
+      "riotgames.com",
+      "leagueoflegends.com",
+      "blizzard.com",
+
+      "quora.com",
+      "medium.com",
+      "dev.to",
+      "news.ycombinator.com",
+
+      "cnn.com",
+      "bbc.com",
+      "nytimes.com",
+      "washingtonpost.com",
+      "foxnews.com",
+      "news.google.com",
+
+      "amazon.com",
+      "ebay.com",
+      "etsy.com",
+      "aliexpress.com",
+      "walmart.com",
+      "bestbuy.com",
+      "target.com",
+
+      "9gag.com",
+      "knowyourmeme.com",
+      "buzzfeed.com",
+      "thechive.com",
+      "boredpanda.com",
+    ],
   },
 
   MAX_ID_RANGE: 800000,
@@ -37,21 +107,4 @@ const CONFIG = {
 };
 
 // Storage Keys Helper
-const ALL_STORAGE_KEYS = Object.values(CONFIG.STORAGE_KEYS);
-
-const elements = {
-  domainInput: document.getElementById("domainInput"),
-  addBtn: document.getElementById("addBlockRuleBtn"),
-  siteList: document.getElementById("siteList"),
-  listTitle: document.getElementById("listTitle"),
-  panicToggle: document.getElementById("panicToggle"),
-  powerBtn: document.getElementById("powerBtn"),
-  settingsBtn: document.getElementById("settingsBtn"),
-  resetAllBtn: document.getElementById("resetAllBtn"),
-  closeSettingsBtn: document.getElementById("closeSettingsBtn"),
-  donateLink: document.getElementById("donateLink"),
-  body: document.body,
-  pausedOverlay: document.getElementById("pausedOverlay"),
-};
-
-export { CONFIG, ALL_STORAGE_KEYS, elements };
+export const ALL_STORAGE_KEYS = Object.values({ ...CONFIG.STORAGE_KEYS, ...CONFIG.HIDDEN_SETTINGS });

@@ -1,4 +1,4 @@
-import { elements } from "../worker/config.js";
+import { elements } from "../popup/elements.js";
 import { handleRemoveDomain } from "../features/domain.js";
 
 function triggerInputError() {

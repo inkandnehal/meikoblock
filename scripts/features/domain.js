@@ -1,4 +1,5 @@
-import { CONFIG, ALL_STORAGE_KEYS, elements } from "../worker/config.js";
+import { CONFIG, ALL_STORAGE_KEYS } from "../worker/config.js";
+import { elements } from "../popup/elements.js";
 import { isValidDomain, extractHostname, saveToList } from "../helpers.js";
 import { reapplyRules } from "../worker/rules.js";
 import { checkAndReloadActiveTab } from "../reload.js";

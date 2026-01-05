@@ -1,4 +1,5 @@
-import { CONFIG, elements } from "../worker/config.js";
+import { CONFIG } from "../worker/config.js";
+import { elements } from "./elements.js";
 import { extractHostname, isValidDomain } from "../helpers.js";
 import { renderUI } from "../ui/render.js";
 import { attachEventListeners } from "./events.js";
