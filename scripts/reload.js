@@ -1,6 +1,6 @@
 import { matchDomain } from "./helpers.js";
 
-async function checkAndReloadActiveTab(addedDomain, isPanicMode) {
+export async function checkAndReloadActiveTab(addedDomain, isPanicMode) {
   const [activeTab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
@@ -14,7 +14,7 @@ async function checkAndReloadActiveTab(addedDomain, isPanicMode) {
   }
 }
 
-async function forceReloadIfPanic() {
+export async function forceReloadIfPanic() {
   const [activeTab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
@@ -34,5 +34,3 @@ async function forceReloadIfPanic() {
     chrome.tabs.reload(activeTab.id);
   }
 }
-
-export { checkAndReloadActiveTab, forceReloadIfPanic };

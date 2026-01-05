@@ -1,6 +1,6 @@
 import { CONFIG } from "./worker/config.js";
 
-async function matchDomain(currentUrl, ruleDomain) {
+export async function matchDomain(currentUrl, ruleDomain) {
   const result = await chrome.storage.local.get(
     CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS
   );
@@ -20,11 +20,11 @@ async function matchDomain(currentUrl, ruleDomain) {
   return currentUrl.endsWith("." + ruleDomain);
 }
 
-function escapeRegex(string) {
+export function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function generateRegexForDomain(rawDomain, blockSubdomains = false) {
+export function generateRegexForDomain(rawDomain, blockSubdomains = false) {
   let domain = rawDomain.replace(/^https?:\/\//, "");
   let isWildcard = false;
 
@@ -42,12 +42,12 @@ function generateRegexForDomain(rawDomain, blockSubdomains = false) {
   return `^(https?://(?:www\\.)?${safeDomain}(?:/.*)?)$`;
 }
 
-function isValidDomain(domain) {
+export function isValidDomain(domain) {
   if (!domain) return false;
   return CONFIG.DOMAIN_REGEX.test(domain) || domain === "localhost";
 }
 
-function extractHostname(url) {
+export function extractHostname(url) {
   if (!url) return null;
   if (url.startsWith("*.")) {
     const rest = url.substring(2);
@@ -67,13 +67,10 @@ function extractHostname(url) {
   }
 }
 
-async function saveToList(key, item) {
+export async function saveToList(key, item) {
   const data = await chrome.storage.local.get(key);
   const list = data[key] || [];
   if (list.some((i) => i.domain === item.domain)) return;
   list.push(item);
   await chrome.storage.local.set({ [key]: list });
 }
-
-
-export { matchDomain, escapeRegex, generateRegexForDomain, isValidDomain, extractHostname, saveToList };

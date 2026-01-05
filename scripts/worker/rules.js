@@ -1,7 +1,7 @@
 import { CONFIG, ALL_STORAGE_KEYS } from "./config.js";
 import { generateRegexForDomain } from "../helpers.js";
 
-async function reapplyRules() {
+export async function reapplyRules() {
   const currentRules = await chrome.declarativeNetRequest.getDynamicRules();
   const removeIds = currentRules.map((r) => r.id);
   await chrome.declarativeNetRequest.updateDynamicRules({
@@ -17,7 +17,7 @@ async function reapplyRules() {
   const whitelistedSites = state.whitelistedSites;
   const blockedSites = state.blockedSites ?? [];
   const distractionSites = state.distractionSites ?? [];
-  const blockDistractionSites = true;
+  const blockDistractionSites = state.blockDistractionSites;
 
   const extensionId = chrome.runtime.id;
   const newRules = [];
@@ -30,10 +30,7 @@ async function reapplyRules() {
       domain,
     }));
 
-    console.log(distractionSites)
-
     effectiveBlockedSites = effectiveBlockedSites.concat(distractionRules);
-    console.log(effectiveBlockedSites)
   }
 
   if (panicMode) {
@@ -118,5 +115,3 @@ async function reapplyRules() {
     });
   }
 }
-
-export { reapplyRules };

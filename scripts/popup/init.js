@@ -4,7 +4,7 @@ import { extractHostname, isValidDomain } from "../helpers.js";
 import { renderUI } from "../ui/render.js";
 import { attachEventListeners } from "./events.js";
 
-async function init() {
+export async function init() {
   const state = await chrome.storage.local.get(
     Object.values(CONFIG.STORAGE_KEYS)
   );
@@ -14,6 +14,7 @@ async function init() {
     "blockSubdomainsByDefault"
   );
   const focusAnimations = document.getElementById("focusAnimations");
+  const blockDistractionSites = document.getElementById("distractionSites");
 
   if (blockSubdomainsByDefault)
     blockSubdomainsByDefault.checked =
@@ -23,9 +24,12 @@ async function init() {
     focusAnimations.checked =
       state[CONFIG.STORAGE_KEYS.DISABLE_FOCUS_ANIMATIONS] ??
       CONFIG.DEFAULTS.disableFocusAnimations;
-  if (focusAnimations.checked) {
+  if (focusAnimations.checked)
     document.body.classList.toggle("focus-disabled", focusAnimations.checked);
-  }
+  if (blockDistractionSites.checked)
+    state[CONFIG.STORAGE_KEYS.BLOCK_DISTRACTION_SITES] ??
+      CONFIG.DEFAULTS.blockDistractionSites;
+
   renderUI(state);
 
   const [activeTab] = await chrome.tabs.query({
@@ -43,5 +47,3 @@ async function init() {
 
   attachEventListeners();
 }
-
-export { init };

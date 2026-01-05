@@ -5,7 +5,7 @@ import { reapplyRules } from "../worker/rules.js";
 import { checkAndReloadActiveTab } from "../reload.js";
 import { renderList, triggerInputError } from "../ui/render.js";
 
-async function handleAddDomain() {
+export async function handleAddDomain() {
   const { isPaused, panicMode } = await chrome.storage.local.get([
     "isPaused",
     "panicMode",
@@ -41,7 +41,7 @@ async function handleAddDomain() {
   }
 }
 
-async function handleRemoveDomain(id, domain) {
+export async function handleRemoveDomain(id, domain) {
   const { isPaused, panicMode } = await chrome.storage.local.get([
     "isPaused",
     "panicMode",
@@ -69,5 +69,3 @@ async function handleRemoveDomain(id, domain) {
     console.error("Remove domain error:", error);
   }
 }
-
-export { handleAddDomain, handleRemoveDomain };

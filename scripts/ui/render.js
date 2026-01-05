@@ -1,12 +1,12 @@
 import { elements } from "../popup/elements.js";
 import { handleRemoveDomain } from "../features/domain.js";
 
-function triggerInputError() {
+export function triggerInputError() {
   elements.domainInput.classList.add("input-error");
   elements.domainInput.focus();
 }
 
-function renderUI(state) {
+export function renderUI(state) {
   const isPaused = state.isPaused || false;
   const isPanicMode = state.panicMode || false;
 
@@ -28,7 +28,7 @@ function renderUI(state) {
   renderList(state);
 }
 
-function renderList(state) {
+export function renderList(state) {
   const listKey = state.panicMode ? "whitelistedSites" : "blockedSites";
   const list = state[listKey] || [];
   elements.siteList.innerHTML = "";
@@ -58,5 +58,3 @@ function renderList(state) {
   });
   elements.siteList.appendChild(fragment);
 }
-
-export { triggerInputError, renderUI, renderList };

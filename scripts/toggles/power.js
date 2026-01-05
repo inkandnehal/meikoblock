@@ -3,7 +3,7 @@ import { forceReloadIfPanic } from "../reload.js";
 import { ALL_STORAGE_KEYS } from "../worker/config.js";
 import { renderUI } from "../ui/render.js";
 
-async function togglePower() {
+export async function togglePower() {
   const { isPaused } = await chrome.storage.local.get("isPaused");
   const newState = !isPaused;
 
@@ -29,5 +29,3 @@ async function togglePower() {
   const state = await chrome.storage.local.get(ALL_STORAGE_KEYS);
   renderUI(state);
 }
-
-export { togglePower };

@@ -4,7 +4,7 @@ import { togglePanicMode } from "../toggles/panic.js";
 import { handleAddDomain } from "../features/domain.js";
 import { handleSettings } from "../features/settings.js";
 
-function attachEventListeners() {
+export function attachEventListeners() {
   elements.donateLink?.addEventListener("click", (e) => {
     e.preventDefault();
     chrome.tabs.create({ url: chrome.runtime.getURL("pages/donate.html") });
@@ -25,5 +25,3 @@ function attachEventListeners() {
     elements.domainInput.classList.remove("input-error");
   });
 }
-
-export { attachEventListeners };

@@ -19,7 +19,7 @@ export const CONFIG = {
     IS_PAUSED: "isPaused",
     BLOCK_SUBDOMAINS: "blockSubdomains",
     DISABLE_FOCUS_ANIMATIONS: "focusAnimations",
-    BLOCK_DISTRACTION_SITES: "blockDistractionSites"
+    BLOCK_DISTRACTION_SITES: "blockDistractionSites",
   },
 
   // Hidden Settings (Settings that the user doesn't need to know but is used for special features)
@@ -107,4 +107,7 @@ export const CONFIG = {
 };
 
 // Storage Keys Helper
-export const ALL_STORAGE_KEYS = Object.values({ ...CONFIG.STORAGE_KEYS, ...CONFIG.HIDDEN_SETTINGS });
+export const ALL_STORAGE_KEYS = Object.values({
+  ...CONFIG.STORAGE_KEYS,
+  ...CONFIG.HIDDEN_SETTINGS,
+});
