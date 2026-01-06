@@ -18,7 +18,7 @@ export const CONFIG = {
     PANIC_MODE: "panicMode",
     IS_PAUSED: "isPaused",
     BLOCK_SUBDOMAINS: "blockSubdomains",
-    DISABLE_FOCUS_ANIMATIONS: "focusAnimations",
+    DISABLE_FOCUS_ANIMATIONS: "disableFocusAnimations",
     BLOCK_DISTRACTION_SITES: "blockDistractionSites",
   },
 
