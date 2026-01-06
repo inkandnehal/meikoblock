@@ -20,14 +20,18 @@ export async function init() {
     blockSubdomainsByDefault.checked =
       state[CONFIG.STORAGE_KEYS.BLOCK_SUBDOMAINS] ??
       CONFIG.DEFAULTS.blockSubdomains;
+
   if (focusAnimations)
     focusAnimations.checked =
       state[CONFIG.STORAGE_KEYS.DISABLE_FOCUS_ANIMATIONS] ??
       CONFIG.DEFAULTS.disableFocusAnimations;
+
   if (focusAnimations.checked)
     document.body.classList.toggle("focus-disabled", focusAnimations.checked);
-  if (blockDistractionSites.checked)
-    state[CONFIG.STORAGE_KEYS.BLOCK_DISTRACTION_SITES] ??
+
+  if (blockDistractionSites)
+    blockDistractionSites.checked =
+      state[CONFIG.STORAGE_KEYS.BLOCK_DISTRACTION_SITES] ??
       CONFIG.DEFAULTS.blockDistractionSites;
 
   renderUI(state);
