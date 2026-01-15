@@ -21,7 +21,7 @@ export async function handleSettings(e) {
 
       document.getElementById("blockSubdomainsByDefault").checked = false;
       document.getElementById("focusAnimations").checked = false;
-      document.getElementById("blockDistractionSites").checked = false;
+      document.getElementById("distractionSites").checked = false;
 
       await reapplyRules();
       renderUI(await chrome.storage.local.get(ALL_STORAGE_KEYS));
